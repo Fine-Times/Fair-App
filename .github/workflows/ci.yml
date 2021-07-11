@@ -73,6 +73,16 @@ jobs:
 
       - run: xcodebuild archive -workspace Fair-App.xcworkspace -configuration Release -scheme "FairApp" -sdk 'macosx' -archivePath "FairApp.xcarchive" CODE_SIGNING_REQUIRED=YES CODE_SIGNING_ALLOWED=YES 
 
+      - name: "Export Archive"
+        run: |
+          echo '<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"><plist version="1.0"><dict><key>method</key><string>ad-hoc</string><key>signingStyle</key><string>automatic</string></dict></plist>' > exportOptions.plist
+          xcodebuild \
+            -exportArchive \
+            -archivePath "FairApp.xcarchive" \
+            -exportPath "." \
+            -exportOptionsPlist exportOptions.plist
+
+
       # PRODUCT_NAME="${{ env.PRODUCT_NAME }}" PRODUCT_BUNDLE_IDENTIFIER="app.${{ env.BUNDLE_ID }}"
 
       #- run: xcodebuild -workspace Fair-App.xcworkspace -configuration Release -scheme "FairApp" -sdk 'iphoneos' CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO 
