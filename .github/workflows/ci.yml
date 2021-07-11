@@ -97,6 +97,11 @@ jobs:
           swift package resolve
           swift run indietool validate -p . -l https://github.com/
 
+      - name: Update Info
+        run: |
+          /usr/libexec/PlistBuddy -c "Set CFBundleIdentifier app.${{ env.BUNDLE_ID }}" Fair-App.plist
+          /usr/libexec/PlistBuddy -c "Set CFBundleDisplayName ${{ env.PRODUCT_NAME }}" Fair-App.plist
+
       - name: Build Archive
         run: |
           xcodebuild archive \
