@@ -56,28 +56,55 @@ jobs:
           echo "ORGNAME: ${{ github.event.pull_request.head.user.login }}"
           echo "ORGNAME='${{ github.event.pull_request.head.user.login }}'" >> $env:GITHUB_ENV
 
-      - name: Show Info
+      - name: Configure App Name
         run: |
           echo "ORGNAME=${{ env.ORGNAME }}"
-
-      - run: echo "PRODUCT_NAME=$(echo ${{ env.PRORG }} | tr '-' ' ')" >> $env:GITHUB_ENV
-      - run: echo "BUNDLE_ID=app.$(echo ${{ env.PRORG }} | tr -d '-')" >> $env:GITHUB_ENV
+          echo "APP_ARTIFACT=${{ env.ORGNAME }}"
+          echo "PRODUCT_NAME=$(echo ${{ env.ORGNAME }} | tr '-' ' ')" >> $env:GITHUB_ENV
+          echo "BUNDLE_ID=app.$(echo ${{ env.ORGNAME }} | tr -d '-')" >> $env:GITHUB_ENV
 
       - name: Show Product
         run: |
-          echo "BUILDING PRODUCT: ${env.PRODUCT_NAME}"
+          echo "BUILDING PRODUCT: ${{ env.PRODUCT_NAME }}"
       
       - run: swift run indietool welcome
 
-      - name: Checkout Repository
+      - name: Checkout Base Repository
+        uses: actions/checkout@v2
+
+      - name: Checkout PR Repository
         uses: actions/checkout@v2
         with:
+          path: ReleasePR
           ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 1
+          submodules: false
 
-      - run: swift run indietool validate
+      - run: swift run indietool welcome
+
+      - run: swift run indietool validate -p ReleasePR/
+
+      - name: Import Release Contents
+        run: |
+          find ReleasePR -type f
+          diff ReleasePR/Sources/App/App.swift Sources/App/App.swift
+          cp -v ReleasePR/Sources/App/App.swift Sources/App/App.swift
+          diff ReleasePR/Package.swift Sources/Package.swift
+          cp -v ReleasePR/Package.swift Sources/Package.swift
 
 
-      - run: xcodebuild archive -workspace Fair-App.xcworkspace -configuration Release -scheme "FairApp" -sdk 'macosx' -archivePath "FairApp.xcarchive" CODE_SIGNING_REQUIRED=YES CODE_SIGNING_ALLOWED=YES 
+      - name: Build Archive
+        run: |
+          xcodebuild archive \
+            -workspace Fair-App.xcworkspace \
+            -configuration Release \
+            -scheme "FairApp" \
+            -sdk 'macosx' \
+            -archivePath "FairApp.xcarchive" \
+            CODE_SIGNING_REQUIRED=YES \
+            CODE_SIGNING_ALLOWED=YES \
+            PRODUCT_NAME="${{ env.PRODUCT_NAME }}" \
+            PRODUCT_BUNDLE_IDENTIFIER="app.${{ env.BUNDLE_ID }}"
 
       - name: "Export Archive"
         run: |
@@ -90,14 +117,12 @@ jobs:
             -exportPath "Exported/" \
             -exportOptionsPlist "exportOptions.plist"
 
-          ditto -c -k --keepParent "Exported/FairApp.app" "Exported/FairApp.zip"
-
-      # PRODUCT_NAME="${{ env.PRODUCT_NAME }}" PRODUCT_BUNDLE_IDENTIFIER="app.${{ env.BUNDLE_ID }}"
+          ditto -c -k --keepParent "Exported/${{ env.APP_ARTIFACT }}.app" "Exported/${{ env.APP_ARTIFACT }}.zip"
 
       #- run: xcodebuild -workspace Fair-App.xcworkspace -configuration Release -scheme "FairApp" -sdk 'iphoneos' CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO 
       # PRODUCT_NAME="${{ github.event.pull_request.head.user.login }}"
 
       - uses: actions/upload-artifact@v2
         with:
-          path: Exported/FairApp.zip
+          path: "Exported/${{ env.APP_ARTIFACT }}.zip"
 
