@@ -12,7 +12,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		49555415268931C1003F1B5B /* Fair App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Fair App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		49555415268931C1003F1B5B /* APPNAME.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = APPNAME.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4955541C268931C4003F1B5B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -47,7 +47,7 @@
 		49555416268931C1003F1B5B /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				49555415268931C1003F1B5B /* Fair App.app */,
+				49555415268931C1003F1B5B /* APPNAME.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -55,9 +55,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		49555414268931C1003F1B5B /* FairApp */ = {
+		49555414268931C1003F1B5B /* APPNAME */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 49555425268931C4003F1B5B /* Build configuration list for PBXNativeTarget "FairApp" */;
+			buildConfigurationList = 49555425268931C4003F1B5B /* Build configuration list for PBXNativeTarget "APPNAME" */;
 			buildPhases = (
 				49555411268931C1003F1B5B /* Sources */,
 				49555412268931C1003F1B5B /* Frameworks */,
@@ -67,12 +67,12 @@
 			);
 			dependencies = (
 			);
-			name = FairApp;
+			name = APPNAME;
 			packageProductDependencies = (
 				498DD183268CDB4600B79D43 /* App */,
 			);
-			productName = FairApp;
-			productReference = 49555415268931C1003F1B5B /* Fair App.app */;
+			productName = APPNAME;
+			productReference = 49555415268931C1003F1B5B /* APPNAME.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -89,7 +89,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 49555410268931C1003F1B5B /* Build configuration list for PBXProject "Fair-App" */;
+			buildConfigurationList = 49555410268931C1003F1B5B /* Build configuration list for PBXProject "APP-NAME" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -102,7 +102,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				49555414268931C1003F1B5B /* FairApp */,
+				49555414268931C1003F1B5B /* APPNAME */,
 			);
 		};
 /* End PBXProject section */
@@ -248,22 +248,21 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = "Fair-App.entitlements";
+				CODE_SIGN_ENTITLEMENTS = "APP-NAME.entitlements";
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
-				FAIRAPP_PRODUCT_NAME = "Fair App";
-				INFOPLIST_FILE = "Fair-App.plist";
+				INFOPLIST_FILE = "APP-NAME.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				PRODUCT_BUNDLE_IDENTIFIER = app.FairApp;
-				PRODUCT_NAME = "$(FAIRAPP_PRODUCT_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = app.APPNAME;
+				PRODUCT_NAME = APPNAME;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 			};
@@ -273,22 +272,21 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = "Fair-App.entitlements";
+				CODE_SIGN_ENTITLEMENTS = "APP-NAME.entitlements";
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
-				FAIRAPP_PRODUCT_NAME = "Fair App";
-				INFOPLIST_FILE = "Fair-App.plist";
+				INFOPLIST_FILE = "APP-NAME.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				PRODUCT_BUNDLE_IDENTIFIER = app.FairApp;
-				PRODUCT_NAME = "$(FAIRAPP_PRODUCT_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = app.APPNAME;
+				PRODUCT_NAME = APPNAME;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 			};
@@ -297,7 +295,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		49555410268931C1003F1B5B /* Build configuration list for PBXProject "Fair-App" */ = {
+		49555410268931C1003F1B5B /* Build configuration list for PBXProject "APP-NAME" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				49555423268931C4003F1B5B /* Debug */,
@@ -306,7 +304,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		49555425268931C4003F1B5B /* Build configuration list for PBXNativeTarget "FairApp" */ = {
+		49555425268931C4003F1B5B /* Build configuration list for PBXNativeTarget "APPNAME" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				49555426268931C4003F1B5B /* Debug */,

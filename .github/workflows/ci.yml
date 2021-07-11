@@ -114,9 +114,8 @@ jobs:
             -archivePath "${{ env.APP_ARTIFACT }}.xcarchive" \
             CODE_SIGNING_REQUIRED=YES \
             CODE_SIGNING_ALLOWED=YES \
-            PRODUCT_BUNDLE_IDENTIFIER="app.${{ env.BUNDLE_ID }}"
-        #PRODUCT_NAME="${{ env.PRODUCT_NAME }}" 
-
+            PRODUCT_BUNDLE_IDENTIFIER="app.${{ env.BUNDLE_ID }}" \
+            FAIRAPP_PRODUCT_NAME="${{ env.PRODUCT_NAME }}" 
 
       - uses: actions/upload-artifact@v2
         with:
