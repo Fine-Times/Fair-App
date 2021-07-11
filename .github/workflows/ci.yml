@@ -41,9 +41,16 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.sha }}
       - run: swift run indietool welcome
-      - run: xcodebuild -workspace Fair-App.xcworkspace -configuration Release -scheme "FairApp" -sdk 'macosx' CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO 
-        # PRODUCT_NAME="${{ github.event.pull_request.head.user.login }}"
-      - run: xcodebuild -workspace Fair-App.xcworkspace -configuration Release -scheme "FairApp" -sdk 'iphoneos' CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO 
-        # PRODUCT_NAME="${{ github.event.pull_request.head.user.login }}"
+
+      - run: echo ("BRANCH_NAME=" + $env:GITHUB_REF.replace('refs/heads/', '')) >> $env:GITHUB_ENV
+      - run: echo ("PRODUCT_NAME=" + ${{ github.event.pull_request.head.user.login }}) >> $env:GITHUB_ENV
+      - run: echo ("BNUDLE_ID=app." + ${{ github.event.pull_request.head.user.login }}) >> $env:GITHUB_ENV
+
+      - run: xcodebuild -workspace Fair-App.xcworkspace -configuration Release -scheme "FairApp" -sdk 'macosx' CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO PRODUCT_NAME="${{ env.PRODUCT_NAME }}" PRODUCT_BUNDLE_IDENTIFIER="app.${{ env.BNUDLE_ID }}"
+
+
+
+      #- run: xcodebuild -workspace Fair-App.xcworkspace -configuration Release -scheme "FairApp" -sdk 'iphoneos' CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO 
+      # PRODUCT_NAME="${{ github.event.pull_request.head.user.login }}"
 
 
