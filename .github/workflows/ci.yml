@@ -156,7 +156,7 @@ jobs:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           automatic_release_tag: "${{ env.APP_ARTIFACT }}"
           prerelease: true
-          title: "{{ env.APP_ARTIFACT }}"
+          title: "${{ env.APP_ARTIFACT }}"
           files: |
             "Exported/${{ env.APP_ARTIFACT }}.zip"
 
