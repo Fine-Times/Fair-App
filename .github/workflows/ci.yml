@@ -78,8 +78,8 @@ jobs:
       #- run: xcodebuild -workspace Fair-App.xcworkspace -configuration Release -scheme "FairApp" -sdk 'iphoneos' CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO 
       # PRODUCT_NAME="${{ github.event.pull_request.head.user.login }}"
 
-      - name: Release
-        uses: softprops/action-gh-release@v1
+      - uses: actions/upload-artifact@v2
         with:
-          files: FairApp.xcarchive
+          name: Fair-App
+          path: FairApp.xcarchive
 
