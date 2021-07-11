@@ -145,10 +145,19 @@ jobs:
           git tag -f -a "${{ env.APP_ARTIFACT }}" -m "Release"
 
       - name: Release
+        id: false
         uses: softprops/action-gh-release@v1
         with:
           files: |
             "Exported/${{ env.APP_ARTIFACT }}.zip"
 
+      - uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "${{ env.APP_ARTIFACT }}"
+          prerelease: true
+          title: "{{ env.APP_ARTIFACT }}"
+          files: |
+            "Exported/${{ env.APP_ARTIFACT }}.zip"
 
 
