@@ -27,7 +27,7 @@ jobs:
     if: github.event_name == 'pull_request_target' 
     steps:
       - run: echo "ENV"
-      - run: echo "github.event.inputs.branch: ${{ github.event.inputs.branch }}"
+      - run: echo "${{ github.event.inputs.branch }} to ${{ github.event.inputs.semver }}"
       - name: Checkout Repository
         uses: actions/checkout@v2
         with:
