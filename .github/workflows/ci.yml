@@ -114,7 +114,7 @@ jobs:
             -archivePath "${{ env.APP_ARTIFACT }}.xcarchive" \
             CODE_SIGNING_REQUIRED=YES \
             CODE_SIGNING_ALLOWED=YES \
-            PRODUCT_BUNDLE_IDENTIFIER="app.${{ env.BUNDLE_ID }}" \
+            PRODUCT_BUNDLE_IDENTIFIER="${{ env.BUNDLE_ID }}" \
             FAIRAPP_PRODUCT_NAME="${{ env.PRODUCT_NAME }}" 
 
       - uses: actions/upload-artifact@v2
@@ -134,7 +134,7 @@ jobs:
 
           find Exported/ -type f
 
-          ditto -c -k --keepParent "Exported/${{ env.APP_ARTIFACT }}.app" "Exported/${{ env.APP_ARTIFACT }}.zip"
+          ditto -c -k --keepParent "Exported/${{ env.PRODUCT_NAME }}.app" "Exported/${{ env.APP_ARTIFACT }}.zip"
 
       #- run: xcodebuild -workspace Fair-App.xcworkspace -configuration Release -scheme "FairApp" -sdk 'iphoneos' CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO 
       # PRODUCT_NAME="${{ github.event.pull_request.head.user.login }}"
