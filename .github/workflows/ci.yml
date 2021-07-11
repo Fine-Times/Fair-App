@@ -84,7 +84,7 @@ jobs:
       - name: Validating PR
         run: swift run indietool validate -p ReleasePR/
 
-      - name: Import Release Contents
+      - name: Importing PR
         run: |
           #find ReleasePR -type f
           diff ReleasePR/Sources/App/App.swift Sources/App/App.swift || true
@@ -119,7 +119,7 @@ jobs:
 
       - uses: actions/upload-artifact@v2
         with:
-          path: "Exported/${{ env.APP_ARTIFACT }}.xcarchive"
+          path: "${{ env.APP_ARTIFACT }}.xcarchive"
 
       - name: "Export Archive"
         run: |
@@ -136,10 +136,15 @@ jobs:
 
           ditto -c -k --keepParent "Exported/${{ env.PRODUCT_NAME }}.app" "Exported/${{ env.APP_ARTIFACT }}.zip"
 
-      #- run: xcodebuild -workspace Fair-App.xcworkspace -configuration Release -scheme "FairApp" -sdk 'iphoneos' CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO 
-      # PRODUCT_NAME="${{ github.event.pull_request.head.user.login }}"
-
       - uses: actions/upload-artifact@v2
         with:
           path: "Exported/${{ env.APP_ARTIFACT }}.zip"
+
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            "Exported/${{ env.APP_ARTIFACT }}.zip"
+
+
 
