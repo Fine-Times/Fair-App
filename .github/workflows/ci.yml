@@ -26,11 +26,9 @@ jobs:
     runs-on: macos-latest
     if: github.event_name == 'pull_request_target' 
     steps:
-      - run: |
-        echo "github.event.inputs.environment: ${{ github.event.inputs.environment }}"
-        echo "github.event.inputs.branch: ${{ github.event.inputs.branch }}"
-        echo "github.event.pull_request.head.repo.full_name: ${{ github.event.pull_request.head.repo.full_name }}"
-
+      - run: echo "github.event.inputs.environment: ${{ github.event.inputs.environment }}"
+      - run: echo "github.event.inputs.branch: ${{ github.event.inputs.branch }}"
+      - run:  "github.event.pull_request.head.repo.full_name: ${{ github.event.pull_request.head.repo.full_name }}"
       - name: Checkout Repository
         uses: actions/checkout@v2
         with:
