@@ -54,14 +54,14 @@ jobs:
         run: |
           echo "TAG: ${{ github.event.inputs.branch }}"
           echo "ORGNAME: ${{ github.event.pull_request.head.user.login }}"
-          echo "ORGNAME=${{ github.event.pull_request.head.user.login }}" >> $env:GITHUB_ENV
+          echo "ORGNAME=${{ github.event.pull_request.head.user.login }}" >> $GITHUB_ENV
 
       - name: Configure App Name
         run: |
           echo "ORGNAME=${{ env.ORGNAME }}"
           echo "APP_ARTIFACT=${{ env.ORGNAME }}"
-          echo "PRODUCT_NAME=$(echo ${{ env.ORGNAME }} | tr '-' ' ')" >> $env:GITHUB_ENV
-          echo "BUNDLE_ID=app.$(echo ${{ env.ORGNAME }} | tr -d '-')" >> $env:GITHUB_ENV
+          echo "PRODUCT_NAME=$(echo ${{ env.ORGNAME }} | tr '-' ' ')" >> $GITHUB_ENV
+          echo "BUNDLE_ID=app.$(echo ${{ env.ORGNAME }} | tr -d '-')" >> $GITHUB_ENV
 
       - name: Show Product
         run: |
@@ -86,11 +86,11 @@ jobs:
 
       - name: Import Release Contents
         run: |
-          find ReleasePR -type f
+          #find ReleasePR -type f
           diff ReleasePR/Sources/App/App.swift Sources/App/App.swift
           cp -v ReleasePR/Sources/App/App.swift Sources/App/App.swift
-          diff ReleasePR/Package.swift Sources/Package.swift
-          cp -v ReleasePR/Package.swift Sources/Package.swift
+          diff ReleasePR/Package.swift Package.swift
+          cp -v ReleasePR/Package.swift Package.swift
 
       - name: Build Archive
         run: |
