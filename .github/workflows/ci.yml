@@ -140,6 +140,10 @@ jobs:
         with:
           path: "Exported/${{ env.APP_ARTIFACT }}.zip"
 
+      - name: "Tag PR"
+        run: |
+          git tag -f -a "${{ env.APP_ARTIFACT }}" -m "Release"
+
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
