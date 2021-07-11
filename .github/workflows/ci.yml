@@ -61,7 +61,7 @@ jobs:
           ref: ${{ github.event.pull_request.head.sha }}
       - run: swift run indietool welcome
 
-      - run: echo "PRORG=${{ github.event.pull_request.head.user.login }}" >> $env:GITHUB_ENV
+      - run: echo "PRORG='${{ github.event.pull_request.head.user.login }}'" >> $env:GITHUB_ENV
       #- run: echo "PRODUCT_NAME=${env.PRORG/-/ }" >> $env:GITHUB_ENV
       #- run: echo "BUNDLE_ID=app.${env.PRORG/-/}" >> $env:GITHUB_ENV
       - run: echo "PRODUCT_NAME=$(echo ${env.PRORG} | tr '-' ' ')" >> $env:GITHUB_ENV
@@ -75,14 +75,16 @@ jobs:
 
       - name: "Export Archive"
         run: |
+          mkdir "Exported/"
           echo '<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"><plist version="1.0"><dict><key>method</key><string>mac-application</string><key>signingStyle</key><string>automatic</string></dict></plist>' > "exportOptions.plist"
           xcodebuild \
             -verbose \
             -exportArchive \
             -archivePath "FairApp.xcarchive" \
-            -exportPath "." \
+            -exportPath "Exported/" \
             -exportOptionsPlist "exportOptions.plist"
 
+          ditto -c -k --keepParent "Exported/FairApp.app" "Exported/FairApp.zip"
 
       # PRODUCT_NAME="${{ env.PRODUCT_NAME }}" PRODUCT_BUNDLE_IDENTIFIER="app.${{ env.BUNDLE_ID }}"
 
@@ -91,6 +93,5 @@ jobs:
 
       - uses: actions/upload-artifact@v2
         with:
-          name: Fair-App
-          path: FairApp.app
+          path: Exported/FairApp.zip
 
