@@ -70,9 +70,9 @@ jobs:
         #run: |
         #echo "BUILDING PRODUCT: ${env.PRODUCT_NAME}"
 
-      - run: xcodebuild -workspace Fair-App.xcworkspace -configuration Release -scheme "FairApp" -sdk 'macosx' CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO 
+      - run: xcodebuild archive -workspace Fair-App.xcworkspace -configuration Release -scheme "FairApp" -sdk 'macosx' CODE_SIGNING_REQUIRED=YES CODE_SIGNING_ALLOWED=YES 
         
-        
+             
       # PRODUCT_NAME="${{ env.PRODUCT_NAME }}" PRODUCT_BUNDLE_IDENTIFIER="app.${{ env.BUNDLE_ID }}"
 
       #- run: xcodebuild -workspace Fair-App.xcworkspace -configuration Release -scheme "FairApp" -sdk 'iphoneos' CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO 
