@@ -16,7 +16,7 @@ jobs:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v2
-      - run: swift test
+      #- run: swift test # cannot run until macos-11 is available
       - run: swift run indietool welcome
       - run: xcodebuild -configuration Release -scheme "IndieApp" -sdk "iphonesimulator" -destination "platform=iOS Simulator,name=iPad (8th generation)" 
       - run: xcodebuild -configuration Release -scheme "IndieApp" -sdk 'macosx11.1' 
