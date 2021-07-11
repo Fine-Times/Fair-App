@@ -99,8 +99,10 @@ jobs:
 
       - name: Update Info
         run: |
-          /usr/libexec/PlistBuddy -c "Add CFBundleIdentifier app.${{ env.BUNDLE_ID }}" Fair-App.plist
-          /usr/libexec/PlistBuddy -c "Add CFBundleDisplayName ${{ env.PRODUCT_NAME }}" Fair-App.plist
+          /usr/libexec/PlistBuddy -c "Add :CFBundleIdentifier string" Fair-App.plist || true
+          /usr/libexec/PlistBuddy -c "Set :CFBundleIdentifier 'app.${{ env.BUNDLE_ID }}'" Fair-App.plist
+          /usr/libexec/PlistBuddy -c "Add :CFBundleDisplayName string" Fair-App.plist || true
+          /usr/libexec/PlistBuddy -c "Set :CFBundleDisplayName '${{ env.PRODUCT_NAME }}'" Fair-App.plist
 
       - name: Build Archive
         run: |
