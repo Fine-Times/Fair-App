@@ -87,9 +87,9 @@ jobs:
       - name: Import Release Contents
         run: |
           #find ReleasePR -type f
-          diff ReleasePR/Sources/App/App.swift Sources/App/App.swift
+          diff ReleasePR/Sources/App/App.swift Sources/App/App.swift || true
           cp -v ReleasePR/Sources/App/App.swift Sources/App/App.swift
-          diff ReleasePR/Package.swift Package.swift
+          diff ReleasePR/Package.swift Package.swift || true
           cp -v ReleasePR/Package.swift Package.swift
 
       - name: Build Archive
@@ -99,11 +99,15 @@ jobs:
             -configuration Release \
             -scheme "FairApp" \
             -sdk 'macosx' \
-            -archivePath "FairApp.xcarchive" \
+            -archivePath "${{ env.APP_ARTIFACT }}.xcarchive" \
             CODE_SIGNING_REQUIRED=YES \
             CODE_SIGNING_ALLOWED=YES \
             PRODUCT_NAME="${{ env.PRODUCT_NAME }}" \
             PRODUCT_BUNDLE_IDENTIFIER="app.${{ env.BUNDLE_ID }}"
+
+      - uses: actions/upload-artifact@v2
+        with:
+          path: "Exported/${{ env.APP_ARTIFACT }}.xcarchive"
 
       - name: "Export Archive"
         run: |
@@ -112,7 +116,7 @@ jobs:
           xcodebuild \
             -verbose \
             -exportArchive \
-            -archivePath "FairApp.xcarchive" \
+            -archivePath "${{ env.APP_ARTIFACT }}.xcarchive" \
             -exportPath "Exported/" \
             -exportOptionsPlist "exportOptions.plist"
 
