@@ -46,9 +46,12 @@ jobs:
       #- run: echo "BUNDLE_ID=app.${env.PRORG/-/}" >> $env:GITHUB_ENV
       - run: echo "PRODUCT_NAME=$(echo ${env.PRORG} | tr '-' ' ')" >> $env:GITHUB_ENV
       - run: echo "BUNDLE_ID=app.$(echo ${env.PRORG} | tr -d '-')" >> $env:GITHUB_ENV
+      - run: echo "BUILDING PRODUCT: ${env.PRODUCT_NAME}"
 
-      - run: xcodebuild -workspace Fair-App.xcworkspace -configuration Release -scheme "FairApp" -sdk 'macosx' CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO PRODUCT_NAME="${{ env.PRODUCT_NAME }}" PRODUCT_BUNDLE_IDENTIFIER="app.${{ env.BUNDLE_ID }}"
-
+      - run: xcodebuild -workspace Fair-App.xcworkspace -configuration Release -scheme "FairApp" -sdk 'macosx' CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO 
+        
+        
+      # PRODUCT_NAME="${{ env.PRODUCT_NAME }}" PRODUCT_BUNDLE_IDENTIFIER="app.${{ env.BUNDLE_ID }}"
 
       #- run: xcodebuild -workspace Fair-App.xcworkspace -configuration Release -scheme "FairApp" -sdk 'iphoneos' CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO 
       # PRODUCT_NAME="${{ github.event.pull_request.head.user.login }}"
