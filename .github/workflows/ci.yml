@@ -145,7 +145,7 @@ jobs:
           git tag -f -a "${{ env.APP_ARTIFACT }}" -m "Release"
 
       - name: Release
-        id: false
+        if: false
         uses: softprops/action-gh-release@v1
         with:
           files: |
