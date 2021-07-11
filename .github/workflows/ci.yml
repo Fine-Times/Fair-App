@@ -92,8 +92,6 @@ jobs:
           diff ReleasePR/Package.swift Package.swift || true
           cp -v ReleasePR/Package.swift Package.swift
 
-      - name: Resolving Package Dependencies
-
       - name: Validate Package.resolved
         run: |
           swift package resolve
@@ -110,10 +108,10 @@ jobs:
             CODE_SIGNING_REQUIRED=YES \
             CODE_SIGNING_ALLOWED=YES \
             PRODUCT_BUNDLE_IDENTIFIER="app.${{ env.BUNDLE_ID }}"
+        #PRODUCT_NAME="${{ env.PRODUCT_NAME }}" 
 
 
       - uses: actions/upload-artifact@v2
-        #PRODUCT_NAME="${{ env.PRODUCT_NAME }}" 
         with:
           path: "Exported/${{ env.APP_ARTIFACT }}.xcarchive"
 
