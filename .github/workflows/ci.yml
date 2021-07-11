@@ -75,12 +75,13 @@ jobs:
 
       - name: "Export Archive"
         run: |
-          echo '<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"><plist version="1.0"><dict><key>method</key><string>mac-application</string><key>signingStyle</key><string>automatic</string></dict></plist>' > exportOptions.plist
+          echo '<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"><plist version="1.0"><dict><key>method</key><string>mac-application</string><key>signingStyle</key><string>automatic</string></dict></plist>' > "exportOptions.plist"
           xcodebuild \
+            -verbose \
             -exportArchive \
             -archivePath "FairApp.xcarchive" \
             -exportPath "." \
-            -exportOptionsPlist exportOptions.plist
+            -exportOptionsPlist "exportOptions.plist"
 
 
       # PRODUCT_NAME="${{ env.PRODUCT_NAME }}" PRODUCT_BUNDLE_IDENTIFIER="app.${{ env.BUNDLE_ID }}"
@@ -91,5 +92,5 @@ jobs:
       - uses: actions/upload-artifact@v2
         with:
           name: Fair-App
-          path: FairApp.xcarchive
+          path: FairApp.app
 
