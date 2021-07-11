@@ -12,7 +12,7 @@ on:
 # check for: github.event_name == 'pull_request_target' && github.event.pull_request.head.repo.full_name != github.repository
 
 jobs:
-  build::
+  build:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v2
@@ -20,5 +20,19 @@ jobs:
       - run: swift run indietool welcome
       - run: xcodebuild -configuration Release -scheme "IndieApp" -sdk "iphonesimulator" -destination "platform=iOS Simulator,name=iPad (8th generation)" 
       - run: xcodebuild -configuration Release -scheme "IndieApp" -sdk 'macosx11.1' 
+
+  pr:
+    name: Integrate PR
+    runs-on: macos-latest
+    if: (github.event_name == 'pull_request_target' && github.actor == 'dependabot[bot]') || (github.event_name != 'pull_request_target' && github.actor != 'dependabot[bot]')
+    steps:
+    - name: Checkout Repository
+      if: ${{ github.event_name != 'pull_request_target' }}
+      uses: actions/checkout@v2.3.4
+    - name: Checkout Repository PR
+      if: ${{ github.event_name == 'pull_request_target' }}
+      uses: actions/checkout@v2.3.4
+      with:
+        ref: ${{ github.event.pull_request.head.sha }}
 
 
