@@ -22,7 +22,7 @@ jobs:
 
 # check for: github.event_name == 'pull_request_target' && github.event.pull_request.head.repo.full_name != github.repository
   deploy:
-    name: Deploy PR
+    name: Deploy ${{ github.event.pull_request.head.user.login }}
     runs-on: macos-latest
     if: github.event_name == 'pull_request_target' 
     steps:
@@ -33,15 +33,17 @@ jobs:
          GITHUB_CONTEXT: ${{ toJson(github) }}
       - name: Show Info
         run: |
-          echo "Triggering Test release with a TAG ${{ github.event.inputs.branch }}"
+          echo "TAG: ${{ github.event.inputs.branch }}"
+          echo "FORK: ${{ github.event.pull_request.head.user.login }}"
 
-          #- run: echo '${{ github.event.pull_request.head.user.login }}'
       - name: Checkout Repository
         uses: actions/checkout@v2
         with:
           ref: ${{ github.event.pull_request.head.sha }}
       - run: swift run indietool welcome
-      - run: xcodebuild -workspace Fair-App.xcworkspace -configuration Release -scheme "FairApp" -sdk 'macosx' CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO PRODUCT_NAME="${{ github.event.pull_request.head.user.login }}"
-      - run: xcodebuild -workspace Fair-App.xcworkspace -configuration Release -scheme "FairApp" -sdk 'iphoneos' CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO PRODUCT_NAME="${{ github.event.pull_request.head.user.login }}"
+      - run: xcodebuild -workspace Fair-App.xcworkspace -configuration Release -scheme "FairApp" -sdk 'macosx' CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO 
+        # PRODUCT_NAME="${{ github.event.pull_request.head.user.login }}"
+      - run: xcodebuild -workspace Fair-App.xcworkspace -configuration Release -scheme "FairApp" -sdk 'iphoneos' CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO 
+        # PRODUCT_NAME="${{ github.event.pull_request.head.user.login }}"
 
 
