@@ -53,7 +53,12 @@ jobs:
       - name: Show Info
         run: |
           echo "TAG: ${{ github.event.inputs.branch }}"
-          echo "FORK: ${{ github.event.pull_request.head.user.login }}"
+          echo "APP: ${{ github.event.pull_request.head.user.login }}"
+          echo "APP='${{ github.event.pull_request.head.user.login }}'" >> $env:GITHUB_ENV
+
+      - name: Show Info
+        run: |
+          echo "APP2=${env.APP}"
 
       - name: Checkout Repository
         uses: actions/checkout@v2
@@ -61,7 +66,6 @@ jobs:
           ref: ${{ github.event.pull_request.head.sha }}
       - run: swift run indietool welcome
 
-      - run: echo "PRORG='${{ github.event.pull_request.head.user.login }}'" >> $env:GITHUB_ENV
       #- run: echo "PRODUCT_NAME=${env.PRORG/-/ }" >> $env:GITHUB_ENV
       #- run: echo "BUNDLE_ID=app.${env.PRORG/-/}" >> $env:GITHUB_ENV
       - run: echo "PRODUCT_NAME=$(echo ${env.PRORG} | tr '-' ' ')" >> $env:GITHUB_ENV
