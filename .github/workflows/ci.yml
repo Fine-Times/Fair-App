@@ -100,7 +100,7 @@ jobs:
       - name: Update Info
         run: |
           /usr/libexec/PlistBuddy -c "Add :CFBundleIdentifier string" Fair-App.plist || true
-          /usr/libexec/PlistBuddy -c "Set :CFBundleIdentifier 'app.${{ env.BUNDLE_ID }}'" Fair-App.plist
+          /usr/libexec/PlistBuddy -c "Set :CFBundleIdentifier '${{ env.BUNDLE_ID }}'" Fair-App.plist
           /usr/libexec/PlistBuddy -c "Add :CFBundleDisplayName string" Fair-App.plist || true
           /usr/libexec/PlistBuddy -c "Set :CFBundleDisplayName '${{ env.PRODUCT_NAME }}'" Fair-App.plist
 
@@ -131,6 +131,8 @@ jobs:
             -archivePath "${{ env.APP_ARTIFACT }}.xcarchive" \
             -exportPath "Exported/" \
             -exportOptionsPlist "exportOptions.plist"
+
+          find Exported/ -type f
 
           ditto -c -k --keepParent "Exported/${{ env.APP_ARTIFACT }}.app" "Exported/${{ env.APP_ARTIFACT }}.zip"
 
