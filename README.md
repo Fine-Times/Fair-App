@@ -1,1 +1,1 @@
-# Fair-App
+Welcome to the IndieSphere!

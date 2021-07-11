@@ -1,0 +1,24 @@
+name: FairApp
+
+on:
+  push:
+    branches: [ main ]
+  pull_request_target:
+    branches:
+      - '*'
+  schedule:
+    - cron: '0 0,12 * * *'
+
+# check for: github.event_name == 'pull_request_target' && github.event.pull_request.head.repo.full_name != github.repository
+
+jobs:
+  build::
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: swift test
+      - run: swift run indietool welcome
+      - run: xcodebuild -configuration Release -scheme "IndieApp" -sdk "iphonesimulator" -destination "platform=iOS Simulator,name=iPad (8th generation)" 
+      - run: xcodebuild -configuration Release -scheme "IndieApp" -sdk 'macosx11.1' 
+
+
