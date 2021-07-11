@@ -53,27 +53,29 @@ jobs:
       - name: Show Info
         run: |
           echo "TAG: ${{ github.event.inputs.branch }}"
-          echo "APP: ${{ github.event.pull_request.head.user.login }}"
-          echo "APP='${{ github.event.pull_request.head.user.login }}'" >> $env:GITHUB_ENV
+          echo "ORGNAME: ${{ github.event.pull_request.head.user.login }}"
+          echo "ORGNAME='${{ github.event.pull_request.head.user.login }}'" >> $env:GITHUB_ENV
 
       - name: Show Info
         run: |
-          echo "APP2=${env.APP}"
+          echo "ORGNAME=${{ env.ORGNAME }}"
+
+      - run: echo "PRODUCT_NAME=$(echo ${{ env.PRORG }} | tr '-' ' ')" >> $env:GITHUB_ENV
+      - run: echo "BUNDLE_ID=app.$(echo ${{ env.PRORG }} | tr -d '-')" >> $env:GITHUB_ENV
+
+      - name: Show Product
+        run: |
+          echo "BUILDING PRODUCT: ${env.PRODUCT_NAME}"
+      
+      - run: swift run indietool welcome
 
       - name: Checkout Repository
         uses: actions/checkout@v2
         with:
           ref: ${{ github.event.pull_request.head.sha }}
-      - run: swift run indietool welcome
 
-      #- run: echo "PRODUCT_NAME=${env.PRORG/-/ }" >> $env:GITHUB_ENV
-      #- run: echo "BUNDLE_ID=app.${env.PRORG/-/}" >> $env:GITHUB_ENV
-      - run: echo "PRODUCT_NAME=$(echo ${env.PRORG} | tr '-' ' ')" >> $env:GITHUB_ENV
-      - run: echo "BUNDLE_ID=app.$(echo ${env.PRORG} | tr -d '-')" >> $env:GITHUB_ENV
+      - run: swift run indietool validate
 
-      #- name: Show Product
-      #run: |
-      #echo "BUILDING PRODUCT: ${env.PRODUCT_NAME}"
 
       - run: xcodebuild archive -workspace Fair-App.xcworkspace -configuration Release -scheme "FairApp" -sdk 'macosx' -archivePath "FairApp.xcarchive" CODE_SIGNING_REQUIRED=YES CODE_SIGNING_ALLOWED=YES 
 
