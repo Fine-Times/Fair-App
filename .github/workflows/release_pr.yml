@@ -144,8 +144,6 @@ jobs:
           draft: true
           prerelease: true
           automatic_release_tag: "${{ env.APP_ARTIFACT }}"
-          files: |
-            README.md
-            staging/${{ env.APP_ARTIFACT }}.zip
+          files: staging/${{ env.APP_ARTIFACT }}.zip
 
 
