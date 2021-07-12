@@ -140,11 +140,12 @@ jobs:
 
       - uses: "marvinpinto/action-automatic-releases@latest"
         with:
-          automatic_release_tag: "${{ env.APP_ARTIFACT }}"
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          draft: true
           prerelease: true
-          title: "${{ env.APP_ARTIFACT }}"
+          automatic_release_tag: "${{ env.APP_ARTIFACT }}"
           files: |
-            "staging/${{ env.APP_ARTIFACT }}.zip"
+            README.md
+            staging/${{ env.APP_ARTIFACT }}.zip
 
 
