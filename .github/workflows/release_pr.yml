@@ -1,27 +1,35 @@
-name: FairApp
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#
+
+#
+# This action runs whenever a PR is created.
+#
+# It will merge the validated "Package.swift" and "App.swift" sources and 
+# build and release an "App-Org.zip" package for end-user installation.
+#
 
 on:
-  push:
-    branches: [ main ]
   pull_request_target:
     branches:
       - '*'
-  schedule:
-    - cron: '0 0,12 * * *'
 
 jobs:
-  build:
+  Deploy:
+    # the App-Org name is the org that submitted the PR
+    name: "Deploy ${{ github.event.pull_request.head.user.login }}"
     runs-on: macos-latest
-    if: github.event_name != 'pull_request_target'
-    steps:
-      - uses: actions/checkout@v2
-      #- run: swift test # cannot run until macos-11 is available
-      - run: swift run indietool welcome
-      - run: xcodebuild -workspace Fair-App.xcworkspace -configuration Release -scheme "FairApp" -sdk 'macosx' CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO
-      - run: xcodebuild -workspace Fair-App.xcworkspace -configuration Release -scheme "FairApp" -sdk 'iphoneos' CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO
-
-  deploy:
-    # only deploy PRs to this repo
+    #runs-on: macos-11
     if: github.event_name == 'pull_request_target' 
     name: "Release: ${{ github.event.pull_request.head.user.login }}"
     runs-on: macos-latest
