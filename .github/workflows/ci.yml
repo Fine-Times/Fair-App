@@ -124,46 +124,42 @@ jobs:
 
       - name: "Export Archive"
         run: |
-          mkdir "Exported/"
-          echo '<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"><plist version="1.0"><dict><key>method</key><string>mac-application</string><key>signingStyle</key><string>automatic</string></dict></plist>' > "exportOptions.plist"
+          rm -rf "staging/"
+          mkdir "staging/"
+          echo '<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"><plist version="1.0"><dict><key>method</key><string>mac-application</string><key>signingStyle</key><string>automatic</string></dict></plist>' > "staging/exportOptions.plist"
           xcodebuild \
             -verbose \
             -exportArchive \
             -archivePath "${{ env.APP_ARTIFACT }}.xcarchive" \
-            -exportPath "Exported/" \
-            -exportOptionsPlist "exportOptions.plist"
+            -exportPath "staging/" \
+            -exportOptionsPlist "staging/exportOptions.plist"
 
-          find Exported/ -type f
+      - name: "Create ${{ env.APP_ARTIFACT }}.zip"
+        run: |
+          find staging/ -type f
 
-          echo APP NAME "Exported/${{ env.PRODUCT_NAME }}.app"
-          ls -la "Exported/${{ env.PRODUCT_NAME }}.app"
+          echo APP NAME "staging/${{ env.PRODUCT_NAME }}.app"
+          ls -la "staging/${{ env.PRODUCT_NAME }}.app"
 
-          ditto -c -k --keepParent "Exported/${{ env.PRODUCT_NAME }}.app" "Exported/${{ env.APP_ARTIFACT }}.zip"
+          echo ZIP NAME "staging/${{ env.APP_ARTIFACT }}.zip"
+          ls -la "staging/${{ env.APP_ARTIFACT }}.zip"
 
-          ls -la Exported/
+          ditto -c -k --keepParent "staging/${{ env.PRODUCT_NAME }}.app" "staging/${{ env.APP_ARTIFACT }}.zip"
+
+          ls -la staging/
+            
+          unzip -t "staging/${{ env.APP_ARTIFACT }}.zip"
 
       - uses: actions/upload-artifact@v2
         with:
-          path: "Exported/${{ env.APP_ARTIFACT }}.zip"
-
-      - name: "Tag PR"
-        run: |
-          git tag -f -a "${{ env.APP_ARTIFACT }}" -m "Release"
-
-      - name: Release
-        if: false
-        uses: softprops/action-gh-release@v1
-        with:
-          files: |
-            "Exported/${{ env.APP_ARTIFACT }}.zip"
+          path: "staging/${{ env.APP_ARTIFACT }}.zip"
 
       - uses: "marvinpinto/action-automatic-releases@latest"
         with:
-          repo_token: "${{ secrets.GITHUB_TOKEN }}"
           automatic_release_tag: "${{ env.APP_ARTIFACT }}"
           prerelease: true
           title: "${{ env.APP_ARTIFACT }}"
           files: |
-            "Exported/${{ env.APP_ARTIFACT }}.zip"
+            "staging/${{ env.APP_ARTIFACT }}.zip"
 
 
