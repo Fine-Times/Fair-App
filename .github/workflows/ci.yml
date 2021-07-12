@@ -23,7 +23,7 @@ jobs:
   deploy:
     # only deploy PRs to this repo
     if: github.event_name == 'pull_request_target' 
-    name: Deploy Downstream Release: ${{ github.event.pull_request.head.user.login }}
+    name: "Deploy Downstream Release: ${{ github.event.pull_request.head.user.login }}"
     runs-on: macos-latest
     steps:
       - name: Dump GitHub context
