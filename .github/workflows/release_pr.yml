@@ -22,17 +22,15 @@
 name: Deploy PR
 on:
   pull_request_target:
-    branches:
-      - '*'
+    branches: [ main ]
 
 jobs:
   Deploy:
     # the App-Org name is the org that submitted the PR
     name: "Release ${{ github.event.pull_request.head.user.login }}"
-    runs-on: macos-latest
-    #runs-on: macos-11
     if: github.event_name == 'pull_request_target' 
     runs-on: macos-latest
+    #runs-on: macos-11
     steps:
       - name: Show Info
         env:
