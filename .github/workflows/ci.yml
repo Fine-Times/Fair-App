@@ -21,9 +21,10 @@ jobs:
       - run: xcodebuild -workspace Fair-App.xcworkspace -configuration Release -scheme "FairApp" -sdk 'iphoneos' CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO
 
   deploy:
-    name: Deploy ${{ github.event.pull_request.head.user.login }}
-    runs-on: macos-latest
+    # only deploy PRs to this repo
     if: github.event_name == 'pull_request_target' 
+    name: Deploy Downstream Release: ${{ github.event.pull_request.head.user.login }}
+    runs-on: macos-latest
     steps:
       - name: Dump GitHub context
         env:
@@ -134,7 +135,12 @@ jobs:
 
           find Exported/ -type f
 
+          echo APP NAME "Exported/${{ env.PRODUCT_NAME }}.app"
+          ls -la "Exported/${{ env.PRODUCT_NAME }}.app"
+
           ditto -c -k --keepParent "Exported/${{ env.PRODUCT_NAME }}.app" "Exported/${{ env.APP_ARTIFACT }}.zip"
+
+          ls -la Exported/
 
       - uses: actions/upload-artifact@v2
         with:
