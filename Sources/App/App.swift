@@ -37,9 +37,7 @@ public extension AppScene {
 @available(macOS 11.0, iOS 14.0, tvOS 14.0, watchOS 7.0, *)
 public struct ContentView: View {
     public var body: some View {
-        // comment
-        Text("Hello Indie!")
+        Text("FAIR Times!")
             .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
-
