@@ -19,6 +19,7 @@
 # build and release an "App-Org.zip" package for end-user installation.
 #
 
+name: App Vaidation
 on:
   push:
     branches: [ main ]
@@ -41,5 +42,5 @@ jobs:
       - run: swift run indietool welcome
 
       - run: xcodebuild build -workspace Fair-App.xcworkspace -configuration Release -scheme "FairApp" -sdk 'macosx' CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO
-      - run: xcodebuild test -workspace Fair-App.xcworkspace -configuration Release -scheme "FairApp" -sdk 'iphoneos' CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO
+      - run: xcodebuild build -workspace Fair-App.xcworkspace -configuration Release -scheme "FairApp" -sdk 'iphoneos' CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO
 

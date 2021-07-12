@@ -19,6 +19,7 @@
 # build and release an "App-Org.zip" package for end-user installation.
 #
 
+name: Deploy PR
 on:
   pull_request_target:
     branches:
