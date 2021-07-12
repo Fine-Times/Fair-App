@@ -37,7 +37,10 @@ public extension AppScene {
 @available(macOS 11.0, iOS 14.0, tvOS 14.0, watchOS 7.0, *)
 public struct ContentView: View {
     public var body: some View {
-        Text("FAIR Times!")
+        Link("Welcome to the App Fair!",
+            destination: URL(string: "https://www.appfair.net")!)
+            .font(.largeTitle)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
+
     }
 }
