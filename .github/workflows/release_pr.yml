@@ -28,11 +28,10 @@ on:
 jobs:
   Deploy:
     # the App-Org name is the org that submitted the PR
-    name: "Deploy ${{ github.event.pull_request.head.user.login }}"
+    name: "Release ${{ github.event.pull_request.head.user.login }}"
     runs-on: macos-latest
     #runs-on: macos-11
     if: github.event_name == 'pull_request_target' 
-    name: "Release: ${{ github.event.pull_request.head.user.login }}"
     runs-on: macos-latest
     steps:
       - name: Show Info

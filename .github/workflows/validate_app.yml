@@ -13,10 +13,8 @@
 #
 
 #
-# This action runs whenever a PR is created.
-#
-# It will merge the validated "Package.swift" and "App.swift" sources and 
-# build and release an "App-Org.zip" package for end-user installation.
+# This action runs whenever code is pushed to the main branch,
+# as well as twice daily to ensure that the app remains valid.
 #
 
 name: App Vaidation
@@ -27,7 +25,7 @@ on:
     - cron: '0 0,12 * * *'
 
 jobs:
-  build:
+  Validate:
     if: github.event_name != 'pull_request_target'
     runs-on: macos-latest
 
@@ -39,7 +37,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       #- run: swift test # cannot run until macos-11 is available
-      - run: swift run indietool welcome
+
+      - name: Validate App
+        run: swift run indietool validate
 
       - run: xcodebuild build -workspace Fair-App.xcworkspace -configuration Release -scheme "FairApp" -sdk 'macosx' CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO
       - run: xcodebuild build -workspace Fair-App.xcworkspace -configuration Release -scheme "FairApp" -sdk 'iphoneos' CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO
